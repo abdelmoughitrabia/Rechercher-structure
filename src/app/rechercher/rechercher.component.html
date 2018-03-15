@@ -1,0 +1,121 @@
+<p-panel header="Rechercher structure" [toggleable]="true">
+
+  <div>
+    <div class="form-group">
+      <label>Type de structure :</label>
+      <p-dropdown></p-dropdown>
+    </div>
+    <div class="form-group">
+      <label>Matricule/nom :</label>
+      <div class="ui-inputgroup">
+        <input class="form-control">
+        <button class="btn btn-primary" type="submit">Rechercher</button>
+      </div>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label" for="check1">Structure active</label>
+      <p-checkbox id="check1" name="groupname"></p-checkbox>
+      <label class="form-check-label" for="check2">Structure inactive</label>
+      <p-checkbox id="check2" name="groupname"></p-checkbox>
+    </div>
+
+  </div>
+  <br/>
+  <div class="ui-g">
+    <div class="ui-g-2"><a (click)="advancedSearchSwitch()" style="color: blue;">Recherche multicritére</a></div>
+    <div class="ui-g-8"></div>
+    <div class="ui-g-2"><a (click)="clearView()" style="color: blue">Réinitialiser</a></div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-2">
+      <div *ngIf="advancedSearch">
+        <div class="form-group">
+          <label>Code Postal statutaire</label>
+          <div class="ui-inputgroup">
+            <input class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Etablissement</label>
+          <div class="ui-inputgroup">
+            <input class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Secteur section</label>
+          <div class="ui-inputgroup">
+            <p-radioButton name="groupname" value="prive" label="Privé"></p-radioButton>
+            <p-radioButton name="groupname" value="public" label="Public"></p-radioButton>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Branche professionnelle section</label>
+          <div class="ui-inputgroup">
+            <input class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Convention collective</label>
+          <div class="ui-inputgroup">
+            <p-dropdown></p-dropdown>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Code géographique section</label>
+          <div class="ui-inputgroup">
+            <input class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <p-checkbox name="group1" binary="true" label="Implantation"></p-checkbox>
+        </div>
+      </div>
+
+    </div>
+    <div class="ui-g-8">
+      <p-table [columns]="cols" [value]="cars" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="caption">
+          Résultat(s) trouvé(s)
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-2">
+      <div *ngIf="advancedSearch">
+        <div class="form-group">
+          <label>Filtres pré-établis</label>
+          <div class="ui-inputgroup">
+            <textarea pInputTextarea></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Nouveau filtre</label>
+          <div class="ui-inputgroup">
+            <input class="form-control">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="ui-inputgroup">
+            <p-button label="Enregistrer filtre"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</p-panel>
+
