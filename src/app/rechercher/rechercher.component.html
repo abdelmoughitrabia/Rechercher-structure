@@ -5,13 +5,14 @@
     <div class="ui-g-6">
       <div class="form-group">
         <label>Type de structure :</label>
-        <p-dropdown placeholder="Type" [(ngModel)]="structure.type"></p-dropdown>
+        <p-dropdown placeholder="-- Type --" [options]="structuresListOptions" [(ngModel)]="structure.type"
+                    filter="true"></p-dropdown>
       </div>
       <div class="form-group">
         <label>Matricule/nom :</label>
         <div class="ui-inputgroup">
           <input class="form-control" type="text" pInputText [(ngModel)]="structure.champRecherche">
-          <button class="btn btn-primary" type="submit">Rechercher</button>
+          <button class="btn btn-primary" type="submit" (click)="rechercher()">Rechercher</button>
         </div>
       </div>
       <div class="form-check">
@@ -21,13 +22,15 @@
         <p-checkbox id="check2" name="groupname" [(ngModel)]="structure.inactive" binary="true"></p-checkbox>
       </div>
     </div>
-    <div class="ui-g-3" *ngIf="!advancedSearch">
-      <div class="ui-g" style="width:250px;margin-bottom:10px">
+    <div class="ui-g-3">
+      <div class="ui-g">
         <div class="ui-g-12">
-          <p-radioButton name="group1" value="Mon périmètre" label="Mon périmètre"></p-radioButton>
+          <p-radioButton  name="group1" value="1" label="Mon périmètre"
+                         [(ngModel)]="horsPerimetre"></p-radioButton>
         </div>
         <div class="ui-g-12">
-          <p-radioButton name="group1" value="Toutes les structures" label="Toutes les structures"></p-radioButton>
+          <p-radioButton name="group1" value="0" label="Toutes les structures"
+                         [(ngModel)]="horsPerimetre"></p-radioButton>
         </div>
       </div>
     </div>
@@ -45,7 +48,8 @@
         <div class="form-group">
           <label>Code Postal statutaire</label>
           <div class="ui-inputgroup">
-            <input class="form-control">
+            <input class="form-control" pInputText
+                   [(ngModel)]="structure.structurePolitique.adresseStatutaire.codePostal">
           </div>
         </div>
         <div class="form-group">

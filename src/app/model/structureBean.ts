@@ -10,8 +10,10 @@ export class StructureBean {
   public active: Boolean;
   public inactive: Boolean;
   public listAllTypeStructures: Array<TypeStructureBean>;
-  public structurePolitique: StructurePolitiqueBean;
-  public etablissement: EtablissementBean;
-  public section: SectionBean;
+  public structurePolitique: StructurePolitiqueBean = new StructurePolitiqueBean();
+  public etablissement: EtablissementBean = new EtablissementBean();
+  public section: SectionBean = new SectionBean();
+
+
 
 }

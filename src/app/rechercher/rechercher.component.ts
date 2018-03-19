@@ -20,13 +20,27 @@ export class RechercherComponent implements OnInit {
   type: string;
   matricule: string;
   advancedSearch: boolean;
+  horsPerimetre: boolean;
 
+  structuresListOptions = [
+    {label: 'SYND', value: 'SYND'},
+    {label: 'UIT', value: 'UIT'},
+    {label: 'UIS', value: 'UIS'},
+    {label: 'UL', value: 'UL'},
+    {label: 'SOF', value: 'SOF'},
+    {label: 'SOS', value: 'SOS'}
+  ];
 
   constructor() {
+    this.initView();
+  }
+
+  initView() {
     this.advancedSearch = false;
     this.structure = new StructureBean();
     this.section = new SectionBean();
     this.etablissement = new EtablissementBean();
+    this.horsPerimetre = true;
   }
 
   ngOnInit() {
@@ -44,5 +58,11 @@ export class RechercherComponent implements OnInit {
 
   clearView() {
     console.log('clear view');
+    this.initView();
   }
+
+  rechercher() {
+    console.log(this.structure);
+  }
+
 }
