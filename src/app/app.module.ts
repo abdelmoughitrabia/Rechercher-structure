@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CheckboxModule, DropdownModule, InputTextareaModule, InputTextModule, RadioButtonModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {TableModule} from 'primeng/table';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     PanelModule,
     BrowserAnimationsModule,
     InputTextModule,

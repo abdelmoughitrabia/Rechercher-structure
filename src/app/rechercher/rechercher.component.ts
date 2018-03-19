@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {StructureBean} from '../model/structureBean';
+import {EtablissementBean} from '../model/etablissementBean';
+import {SectionBean} from '../model/sectionBean';
 
 @Component({
   selector: 'app-rechercher',
@@ -7,14 +10,23 @@ import {Component, OnInit} from '@angular/core';
 })
 export class RechercherComponent implements OnInit {
 
-  advancedSearch: boolean;
+  structures: Array<StructureBean>;
 
-  cars: any[];
+  structure: StructureBean;
+  etablissement: EtablissementBean;
+  section: SectionBean;
 
   cols: any[];
+  type: string;
+  matricule: string;
+  advancedSearch: boolean;
+
 
   constructor() {
     this.advancedSearch = false;
+    this.structure = new StructureBean();
+    this.section = new SectionBean();
+    this.etablissement = new EtablissementBean();
   }
 
   ngOnInit() {
@@ -31,6 +43,6 @@ export class RechercherComponent implements OnInit {
   }
 
   clearView() {
-    console.log('clear view') ;
+    console.log('clear view');
   }
 }
