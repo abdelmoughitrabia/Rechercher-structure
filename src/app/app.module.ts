@@ -6,10 +6,24 @@ import {AppComponent} from './app.component';
 import {RechercherComponent} from './rechercher/rechercher.component';
 import {PanelModule} from 'primeng/panel';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CheckboxModule, DropdownModule, InputTextareaModule, InputTextModule, RadioButtonModule} from 'primeng/primeng';
+import {
+  AutoCompleteModule,
+  CheckboxModule,
+  DropdownModule,
+  InputTextareaModule,
+  InputTextModule,
+  MessagesModule,
+  RadioButtonModule
+} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
+import {MessageModule} from 'primeng/message';
+import {DataViewModule} from 'primeng/dataview';
+import {RechercherStructureService} from './service/rechercherStructureService';
+import {HttpClientModule} from '@angular/common/http';
+import {ListboxModule} from 'primeng/listbox';
+import {EtablissementService} from './service/etablissementService';
 
 
 @NgModule({
@@ -18,6 +32,12 @@ import {FormsModule} from '@angular/forms';
     RechercherComponent
   ],
   imports: [
+    AutoCompleteModule,
+    ListboxModule,
+    HttpClientModule,
+    DataViewModule,
+    MessagesModule,
+    MessageModule,
     BrowserModule,
     FormsModule,
     PanelModule,
@@ -30,7 +50,7 @@ import {FormsModule} from '@angular/forms';
     TableModule,
     InputTextareaModule
   ],
-  providers: [],
+  providers: [RechercherStructureService, EtablissementService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

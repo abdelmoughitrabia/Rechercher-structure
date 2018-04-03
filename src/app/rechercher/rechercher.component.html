@@ -1,36 +1,40 @@
 <p-panel header="Rechercher structure" [toggleable]="true">
-
+  <p-messages [(value)]="msgs"></p-messages>
   <div class="ui-g">
     <div class="ui-g-3"></div>
     <div class="ui-g-6">
       <div class="form-group">
         <label>Type de structure :</label>
-        <p-dropdown placeholder="-- Type --" [options]="structuresListOptions" [(ngModel)]="structure.type"
+        <p-dropdown placeholder="-- Type --" [options]="structuresListOptions" [(ngModel)]="webRequestFront.type"
                     filter="true"></p-dropdown>
       </div>
       <div class="form-group">
         <label>Matricule/nom :</label>
         <div class="ui-inputgroup">
-          <input class="form-control" type="text" pInputText [(ngModel)]="structure.champRecherche">
+          <input class="form-control" type="text" pInputText [(ngModel)]="webRequestFront.champRecherche">
           <button class="btn btn-primary" type="submit" (click)="rechercher()">Rechercher</button>
         </div>
       </div>
       <div class="form-check">
         <label class="form-check-label" for="check1">Structure active</label>
-        <p-checkbox id="check1" name="groupname" [(ngModel)]="structure.active" binary="true"></p-checkbox>
+        <p-checkbox id="check1" name="groupname" [(ngModel)]="webRequestFront.active"
+                    binary="true"></p-checkbox>
         <label class="form-check-label" for="check2">Structure inactive</label>
-        <p-checkbox id="check2" name="groupname" [(ngModel)]="structure.inactive" binary="true"></p-checkbox>
+        <p-checkbox id="check2" name="groupname" [(ngModel)]="webRequestFront.inactive"
+                    binary="true"></p-checkbox>
       </div>
     </div>
     <div class="ui-g-3">
       <div class="ui-g">
         <div class="ui-g-12">
-          <p-radioButton  name="group1" value="1" label="Mon périmètre"
-                         [(ngModel)]="horsPerimetre"></p-radioButton>
+          <p-radioButton name="group1" label="Mon périmètre"
+                         (onClick)="updateListType()" [value]="true"
+                         [(ngModel)]="monPerimetre"></p-radioButton>
         </div>
         <div class="ui-g-12">
-          <p-radioButton name="group1" value="0" label="Toutes les structures"
-                         [(ngModel)]="horsPerimetre"></p-radioButton>
+          <p-radioButton name="group1" label="Toutes les structures"
+                         (onClick)="updateListType()" [value]="false"
+                         [(ngModel)]="monPerimetre"></p-radioButton>
         </div>
       </div>
     </div>
@@ -49,43 +53,55 @@
           <label>Code Postal statutaire</label>
           <div class="ui-inputgroup">
             <input class="form-control" pInputText
-                   [(ngModel)]="structure.structurePolitique.adresseStatutaire.codePostal">
+                   [(ngModel)]="webRequestFront.codePostale">
           </div>
         </div>
         <div class="form-group">
           <label>Etablissement</label>
           <div class="ui-inputgroup">
-            <input class="form-control" pInputText [(ngModel)]="etablissement.nom">
+            <!--<input class="form-control" pInputText [(ngModel)]="webRequestFront.etablissement">-->
+
+            <p-autoComplete [(ngModel)]="selectedStablissement" [suggestions]="filtredEtablissement"
+                            (completeMethod)="filterEtablissement($event)" [size]="10"
+                            [minLength]="1" field="nom"
+                            styleClass="wid200">
+              <ng-template let-value pTemplate="item">
+                <span style="font-size:10px">{{value.nom}}</span>
+              </ng-template>
+            </p-autoComplete>
+
           </div>
         </div>
         <div class="form-group">
           <label>Secteur section</label>
           <div class="ui-inputgroup">
-            <p-radioButton name="groupname" value="prive" label="Privé" [(ngModel)]="section.secteur"></p-radioButton>
-            <p-radioButton name="groupname" value="public" label="Public" [(ngModel)]="section.secteur"></p-radioButton>
+            <p-radioButton name="groupname" value="PRIVE" label="Privé"
+                           [(ngModel)]="webRequestFront.secteurSection"></p-radioButton>
+            <p-radioButton name="groupname" value="PUBLIQUE" label="Public"
+                           [(ngModel)]="webRequestFront.secteurSection"></p-radioButton>
           </div>
         </div>
         <div class="form-group">
           <label>Branche professionnelle section</label>
           <div class="ui-inputgroup">
-            <input class="form-control" pInputText [(ngModel)]="section.brancheProfessionnelle">
+            <input class="form-control" pInputText [(ngModel)]="webRequestFront.brancheProfessionnelle">
           </div>
         </div>
         <div class="form-group">
           <label>Convention collective</label>
           <div class="ui-inputgroup">
-            <p-dropdown placeholder="Convention" [(ngModel)]="section.conventionCollective"></p-dropdown>
+            <p-dropdown placeholder="Convention" [(ngModel)]="selectedConvention"></p-dropdown>
           </div>
         </div>
         <div class="form-group">
           <label>Code géographique section</label>
           <div class="ui-inputgroup">
-            <input class="form-control" pInputText [(ngModel)]="section.codeGeographique">
+            <input class="form-control" pInputText [(ngModel)]="webRequestFront.codeGeographique">
           </div>
         </div>
         <div class="form-group">
           <p-checkbox name="group1" binary="true" label="Implantation"
-                      [(ngModel)]="section.indicateurImplentation"></p-checkbox>
+                      [(ngModel)]="webRequestFront.implantation"></p-checkbox>
         </div>
       </div>
 
@@ -93,7 +109,7 @@
     <div class="ui-g-8">
       <p-table [columns]="cols" [value]="structures" [paginator]="true" [rows]="10">
         <ng-template pTemplate="caption">
-          Résultat(s) trouvé(s)
+          {{nbrResultat}} Résultat(s) trouvé(s)
         </ng-template>
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -116,18 +132,20 @@
         <div class="form-group">
           <label>Filtres pré-établis</label>
           <div class="ui-inputgroup">
-            <textarea pInputTextarea></textarea>
+            <p-listbox [options]="filtersList" [(ngModel)]="selectedFilter" optionLabel="libelle"
+                       [style]="{'min-height': '100px'}" [listStyle]="{'max-height':'150px'}">
+            </p-listbox>
           </div>
         </div>
         <div class="form-group">
           <label>Nouveau filtre</label>
           <div class="ui-inputgroup">
-            <input class="form-control">
+            <input class="form-control" pInputText [(ngModel)]="this.selectedFilter.libelle">
           </div>
         </div>
         <div class="form-group">
           <div class="ui-inputgroup">
-            <p-button label="Enregistrer filtre"></p-button>
+            <p-button label="Enregistrer filtre" (onClick)="addFilter()"></p-button>
           </div>
         </div>
       </div>
