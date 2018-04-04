@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {StructureBean} from '../model/structureBean';
 import {WebRequestFront} from '../model/webRequestFront';
 import {GenericRechercheBean} from '../model/genericRechercheBean';
-import {Message} from 'primeng/api';
+import {Message, SortEvent} from 'primeng/api';
 import {RechercherStructureService} from '../service/rechercherStructureService';
 import {Filtre} from '../model/filtre';
 import {ConventionCollectiveBean} from '../model/conventionCollectiveBean';
@@ -246,6 +246,28 @@ export class RechercherComponent implements OnInit {
         this.backResponse = <GenericRechercheBean<StructureBean>> data;
         this.structures = this.backResponse.listeResultat;
       }, error1 => console.log('error==>' + error1));
+  }
+
+  customSort(event: SortEvent) {
+
+    console.log('sort using=>' + event.field);
+    console.log(event.order);
+    if (event.field !== undefined) {
+      this.webRequestFront.pagination = true;
+      this.webRequestFront.sidx = event.field;
+      this.webRequestFront.page = null;
+      this.webRequestFront.sord = event.order == 1 ? 'desc' : 'asc';
+      this.webRequestFront.idRecherche = this.idRecherche;
+
+      console.log(this.webRequestFront);
+      this.rechercherStructureService.getStrucutures(this.webRequestFront)
+        .subscribe(data => {
+          this.backResponse = <GenericRechercheBean<StructureBean>> data;
+          this.structures = this.backResponse.listeResultat;
+        }, error1 => console.log('error==>' + error1));
+    }
+
+
   }
 
 
