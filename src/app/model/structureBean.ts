@@ -16,11 +16,10 @@ export class StructureBean {
   public structurePolitique: StructurePolitiqueBean;
   public etablissement: EtablissementBean;
   public section: SectionBean;
+  public statut: string;
 
   constructor() {
-    this.structurePolitique = new StructurePolitiqueBean();
-    this.etablissement = new EtablissementBean();
-    this.section = new SectionBean();
+
   }
 
 

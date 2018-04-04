@@ -12,7 +12,7 @@ import {
   DropdownModule,
   InputTextareaModule,
   InputTextModule,
-  MessagesModule,
+  MessagesModule, PaginatorModule,
   RadioButtonModule
 } from 'primeng/primeng';
 import {ButtonModule} from 'primeng/button';
@@ -24,6 +24,9 @@ import {RechercherStructureService} from './service/rechercherStructureService';
 import {HttpClientModule} from '@angular/common/http';
 import {ListboxModule} from 'primeng/listbox';
 import {EtablissementService} from './service/etablissementService';
+import {ConventionCollectiveService} from './service/conventionCollectiveService';
+import {TypesStructureService} from './service/typesStructureService';
+import {BrancheProfessionnelleService} from './service/brancheProfessionnelleService';
 
 
 @NgModule({
@@ -32,6 +35,7 @@ import {EtablissementService} from './service/etablissementService';
     RechercherComponent
   ],
   imports: [
+    PaginatorModule,
     AutoCompleteModule,
     ListboxModule,
     HttpClientModule,
@@ -50,7 +54,13 @@ import {EtablissementService} from './service/etablissementService';
     TableModule,
     InputTextareaModule
   ],
-  providers: [RechercherStructureService, EtablissementService],
+  providers: [
+    RechercherStructureService,
+    EtablissementService,
+    ConventionCollectiveService,
+    TypesStructureService,
+    BrancheProfessionnelleService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

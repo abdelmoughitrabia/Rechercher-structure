@@ -5,8 +5,9 @@
     <div class="ui-g-6">
       <div class="form-group">
         <label>Type de structure :</label>
-        <p-dropdown placeholder="-- Type --" [options]="structuresListOptions" [(ngModel)]="webRequestFront.type"
-                    filter="true"></p-dropdown>
+        <p-dropdown placeholder="-- Type --" [options]="typesStructure" optionLabel="codeLibelle"
+                    [(ngModel)]="selectedTypeStructure"
+                    filter="true" [style]="{'width':'80%'}"></p-dropdown>
       </div>
       <div class="form-group">
         <label>Matricule/nom :</label>
@@ -58,13 +59,12 @@
         </div>
         <div class="form-group">
           <label>Etablissement</label>
-          <div class="ui-inputgroup">
+          <div>
             <!--<input class="form-control" pInputText [(ngModel)]="webRequestFront.etablissement">-->
 
             <p-autoComplete [(ngModel)]="selectedStablissement" [suggestions]="filtredEtablissement"
                             (completeMethod)="filterEtablissement($event)" [size]="10"
-                            [minLength]="1" field="nom"
-                            styleClass="wid200">
+                            [minLength]="1" field="nom">
               <ng-template let-value pTemplate="item">
                 <span style="font-size:10px">{{value.nom}}</span>
               </ng-template>
@@ -83,14 +83,28 @@
         </div>
         <div class="form-group">
           <label>Branche professionnelle section</label>
-          <div class="ui-inputgroup">
-            <input class="form-control" pInputText [(ngModel)]="webRequestFront.brancheProfessionnelle">
+          <div>
+            <!--<input class="form-control" pInputText-->
+            <!--[(ngModel)]="selectedBranche">-->
+
+            <p-autoComplete [(ngModel)]="selectedBranche" [suggestions]="branches"
+                            (completeMethod)="filterBranches($event)" [size]="10"
+                            [minLength]="1" field="codeLibelle">
+              <ng-template let-value pTemplate="item">
+                <span style="font-size:10px">{{value.codeLibelle}}</span>
+              </ng-template>
+            </p-autoComplete>
+
           </div>
         </div>
         <div class="form-group">
           <label>Convention collective</label>
-          <div class="ui-inputgroup">
-            <p-dropdown placeholder="Convention" [(ngModel)]="selectedConvention"></p-dropdown>
+          <div>
+            <p-dropdown placeholder="Convention" [options]="conventionList"
+                        optionLabel="libelleCourt"
+                        [(ngModel)]="selectedConvention"
+                        [style]="{'width':'100%'}"
+                        filter="true"></p-dropdown>
           </div>
         </div>
         <div class="form-group">
@@ -107,7 +121,7 @@
 
     </div>
     <div class="ui-g-8">
-      <p-table [columns]="cols" [value]="structures" [paginator]="true" [rows]="10">
+      <p-table [columns]="cols" [value]="structures" [scrollable]="true" scrollHeight="400px">
         <ng-template pTemplate="caption">
           {{nbrResultat}} Résultat(s) trouvé(s)
         </ng-template>
@@ -126,6 +140,8 @@
           </tr>
         </ng-template>
       </p-table>
+      <p-paginator [rows]="rows" [totalRecords]="nbrResultat"
+                   (onPageChange)="paginate($event)"></p-paginator>
     </div>
     <div class="ui-g-2">
       <div *ngIf="advancedSearch">
